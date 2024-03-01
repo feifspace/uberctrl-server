@@ -25,7 +25,7 @@ io.of('/uberctrl').on('connection', (socket) => {
                 'echo "' + data.space.port + '" > /home/feif/uberctrl-server/port.file',
                 'uberspace web backend set ' + data.space.url + ' --http --port ' + data.space.port,
                 'uberspace web header set /socket.io Access-Control-Allow-Origin "*"',
-                'echo "[program:uberctrl]\ndirectory=%(ENV_HOME)s/uberctrl-server\ncommand=node index\nautostart=yes\nautorestart=yes\nstartsecs=30" > /home/feif/etc/services.d/uberctrl-server.ini',
+                'echo "[program:uberctrl-server]\ndirectory=%(ENV_HOME)s/uberctrl-server\ncommand=node index\nautostart=yes\nautorestart=yes\nstartsecs=30" > /home/feif/etc/services.d/uberctrl-server.ini',
                 'supervisorctl reread && supervisorctl update'
             ]
         };
