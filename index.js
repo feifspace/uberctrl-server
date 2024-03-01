@@ -2,7 +2,7 @@ const { Server } = require('socket.io');
 const SSH2Shell = require ('ssh2shell');
 const CryptoJS = require("crypto-js");
 
-const io = new Server(require('fs').readFileSync('port', 'utf8'));
+const io = new Server(require('fs').readFileSync('port.file', 'utf8'));
 
 io.of('/uberctrl').on("connection", (socket) => {
     socket.on('remoteInstall', (data, callback) => {
@@ -22,7 +22,7 @@ io.of('/uberctrl').on("connection", (socket) => {
             },
             commands: [
                 'git clone https://github.com/feifspace/uberctrl-server.git && npm i',
-                'echo "' + data.space.port + '" > /home/feif/uberctrl/port',
+                'echo "' + data.space.port + '" > /home/feif/uberctrl/port.file',
                 'uberspace web backend set ' + data.space.url + ' --http --port ' + data.space.port,
                 'uberspace web header set /socket.io Access-Control-Allow-Origin "*"',
                 'echo "[program:uberctrl]\ndirectory=%(ENV_HOME)s/uberctrl\ncommand=node index\nautostart=yes\nautorestart=yes\nstartsecs=30" > /home/feif/etc/services.d/uberctrl.ini',
