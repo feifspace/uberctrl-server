@@ -67,7 +67,7 @@ io.of('/uberctrl').on('connection', (socket) => {
     socket.on('addDomain', (data, callback) => {
         data.space = JSON.parse(CryptoJS.AES.decrypt(data.space, socket.handshake.auth.token).toString(CryptoJS.enc.Utf8));
         
-        data.domain = data.domain.replace('www.', '').toLowerCase();
+        data.domain.label = data.domain.label.toLowerCase();
         
         const host = {
             server: {
@@ -119,11 +119,14 @@ io.of('/uberctrl').on('connection', (socket) => {
                 });
                 
                 output[1].forEach((value) => {
-                    const i = temp.findIndex(e => e.domain === value);
+                    const array = temp;
+                    const i = array.findIndex(e => e.domain === value.split(' ')[0]);
+                    
+                    
                     if (i > -1) {
                         temp[i].mail = true;
                     } else {
-                        temp.push({ web: false, mail: true, domain: value });
+                        temp.push({ mail: true, domain: value });
                     }
                 });
                 
